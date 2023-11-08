@@ -16,6 +16,8 @@ const router = require('express').Router()
 router.use('/users', require('./user'))
 // token:
 router.use('/tokens', require('./token'))
+// comment:
+router.use('/comments', require('./comment'))
 
 
 // document:
