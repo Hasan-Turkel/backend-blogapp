@@ -20,6 +20,8 @@ router.use('/tokens', require('./token'))
 router.use('/comments', require('./comment'))
 // like:
 router.use('/likes', require('./like'))
+// category:
+router.use('/categorys', require('./category'))
 
 
 // document:
