@@ -18,6 +18,8 @@ router.use('/users', require('./user'))
 router.use('/tokens', require('./token'))
 // comment:
 router.use('/comments', require('./comment'))
+// like:
+router.use('/likes', require('./like'))
 
 
 // document:
