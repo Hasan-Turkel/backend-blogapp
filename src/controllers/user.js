@@ -2,7 +2,7 @@
 
 
 const User = require('../models/user')
-// const Token = require('../models/token')
+const Token = require('../models/token')
 const passwordEncrypt = require('../helpers/passwordEncrypt')
 
 module.exports = {
@@ -20,10 +20,10 @@ module.exports = {
                 </ul>
             `
         */
-
-        const filters = (req.user?.is_superadmin) ? {} : { _id: req.user._id }
-
-        const data = await res.getModelList(User, filters)
+        
+        // const filters = (req.user?.is_superadmin) ? {} : { _id: req.user?._id }
+        
+        const data = await res.getModelList(User)
 
         // res.status(200).send({
         //     error: false,
@@ -54,7 +54,7 @@ module.exports = {
 
         // Disallow setting admin
       
-        req.body.is_superadmin = false
+        // req.body.is_superadmin = false
 
         const data = await User.create(req.body)
 
