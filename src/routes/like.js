@@ -4,21 +4,21 @@ const router = require('express').Router()
 /* ------------------------------------------------------- */
 // routes/like:
 
-// const { isAdmin } = require('../middlewares/permissions')
+const { isAdmin, isLogin } = require('../middlewares/permissions')
 const like = require('../controllers/like')
 
 // URL: /tokens
 
-// router.use(isAdmin)
+router.use(isLogin)
 
 router.route('/')
-    .get(like.list)
+    .get(isAdmin, like.list)
     .post(like.create)
 
 router.route('/:id')
-    .get(like.read)
-    .put(like.update)
-    .patch(like.update)
+    .get(isAdmin, like.read)
+    .put(isAdmin, like.update)
+    .patch(isAdmin, like.update)
     .delete(like.delete)
 
 /* ------------------------------------------------------- */
