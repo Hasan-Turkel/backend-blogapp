@@ -4,7 +4,7 @@ const router = require('express').Router()
 /* ------------------------------------------------------- */
 // routes/user:
 
-const { isLogin } = require('../middlewares/permissions')
+const { isLogin, isAdmin } = require('../middlewares/permissions')
 const user = require('../controllers/user')
 
 // URL: /users
@@ -19,7 +19,7 @@ router.route('/:id')
     .get(user.read)
     .put(user.update)
     .patch(user.update)
-    .delete(user.delete)
+    .delete(isAdmin, user.delete)
 
 /* ------------------------------------------------------- */
 module.exports = router
