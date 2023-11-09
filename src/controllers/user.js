@@ -21,9 +21,9 @@ module.exports = {
             `
         */
         
-        // const filters = (req.user?.is_superadmin) ? {} : { _id: req.user?._id }
+        const filters = (req.user?.is_superadmin) ? {} : { _id: req.user?._id }
         
-        const data = await res.getModelList(User)
+        const data = await res.getModelList(User, filters)
 
         // res.status(200).send({
         //     error: false,
@@ -54,7 +54,7 @@ module.exports = {
 
         // Disallow setting admin
       
-        // req.body.is_superadmin = false
+        req.body.is_superadmin = false
 
         const data = await User.create(req.body)
 
