@@ -25,7 +25,7 @@ const LikeSchema = new mongoose.Schema({
 
 /* ------------------------------------------------------- */
 // FOR REACT PROJECT:
-TokenSchema.pre('init', function(data) {
+LikeSchema.pre('init', function(data) {
     data.id = data._id
     data.createds = data.createdAt.toLocaleDateString('tr-tr')
 })
