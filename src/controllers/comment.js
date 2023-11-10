@@ -27,8 +27,15 @@ module.exports = {
         /*
             #swagger.ignore = true
         */
+        req.body.user_id = req.user
+        req.body.post = req.params.id
 
         const data = await Comment.create(req.body)
+
+        const comments = await Comment.find({post:req.params.id})
+
+        const blogCommentUpdate = await Blog.updateOne({_id:req.params.id}, {comments:comments})
+        const blogCommentCountUpdate = await Blog.updateOne({_id:req.params.id}, { $inc: { comment_count: +1 } })
 
         res.status(201).send({
             error: false,
@@ -56,6 +63,9 @@ module.exports = {
 
         const data = await Comment.updateOne({ _id: req.params.id }, req.body, { runValidators: true })
 
+        const comments = await Comment.find({post:req.params.id})
+        const blogCommentUpdate = await Blog.updateOne({_id:req.params.id}, {comments:comments})
+
         res.status(202).send({
             error: false,
             data,
@@ -69,6 +79,12 @@ module.exports = {
         */
 
         const data = await Comment.deleteOne({ _id: req.params.id })
+
+        const comment = await Comment.findOne({_id:req.params.id})
+
+        const comments = await Comment.find({post:comment.post})
+        const blogCommentUpdate = await Blog.updateOne({_id:comment.post}, {comments:comments})
+        const blogCommentCountUpdate = await Blog.updateOne({_id:comment.post}, { $inc: { comment_count: -1 } })
 
         res.status(data.deletedCount ? 204 : 404).send({
             error: !data.deletedCount,
