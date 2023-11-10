@@ -28,7 +28,8 @@ module.exports = {
         /*
             #swagger.ignore = true
         */
-        req.body.user_id = req.user
+        const user = await User.findOne({_id:req.user})
+        req.body.user = user.username
         req.body.post = req.params.id
 
         const data = await Comment.create(req.body)

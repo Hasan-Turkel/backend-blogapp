@@ -30,6 +30,10 @@ module.exports = {
 
     const data = await Like.create(req.body);
 
+    const likes = await Like.find({ post_id: req.body.post_id });
+      const blogLikeUpdate = await Blog.updateOne({ _id: req.params.post_id }, { likes_n: likes });
+      const blogLikesCountUpdate = await Blog.updateOne({ _id: req.params.post_id }, { $inc: { likes: +1 } });
+
     res.status(201).send({
       error: false,
       data,
@@ -58,6 +62,10 @@ module.exports = {
       runValidators: true,
     });
 
+    const likes = await Like.find({ post_id: req.body.post_id });
+    const blogLikeUpdate = await Blog.updateOne({ _id: req.params.post_id }, { likes_n: likes });
+     
+
     res.status(202).send({
       error: false,
       data,
@@ -69,8 +77,13 @@ module.exports = {
     /*
             #swagger.ignore = true
         */
+    const like = await Like.findOne({ _id: req.params.id });
 
     const data = await Like.deleteOne({ _id: req.params.id });
+
+    const likes = await Like.find({ post_id: like.post_id});
+    const blogCommentUpdate = await Blog.updateOne({ _id: like.post_id}, {likes_n: likes });
+    const blogCommentCountUpdate = await Blog.updateOne({ _id: like.post_id}, { $inc: { likes: -1 } })
 
     res.status(data.deletedCount ? 204 : 404).send({
       error: !data.deletedCount,
