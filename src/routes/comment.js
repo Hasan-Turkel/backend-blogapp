@@ -4,7 +4,7 @@ const router = require('express').Router()
 /* ------------------------------------------------------- */
 // routes/comment:
 
-// const { isAdmin } = require('../middlewares/permissions')
+const { isAdmin, isLogin } = require('../middlewares/permissions')
 const comment = require('../controllers/comment')
 
 // URL: /comments
@@ -13,13 +13,13 @@ const comment = require('../controllers/comment')
 
 router.route('/')
     .get(comment.list)
-    .post(comment.create)
+    .post(isLogin, comment.create)
 
 router.route('/:id')
-    .get(comment.read)
-    .put(comment.update)
-    .patch(comment.update)
-    .delete(comment.delete)
+    .get(isAdmin, comment.read)
+    .put(isAdmin, comment.update)
+    .patch(isAdmin, comment.update)
+    .delete(isAdmin, comment.delete)
 
 /* ------------------------------------------------------- */
 module.exports = router
