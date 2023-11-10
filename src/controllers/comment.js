@@ -78,10 +78,9 @@ module.exports = {
         /*
             #swagger.ignore = true
         */
+        const comment = await Comment.findOne({_id:req.params.id})
 
         const data = await Comment.deleteOne({ _id: req.params.id })
-
-        const comment = await Comment.findOne({_id:req.params.id})
 
         const comments = await Comment.find({post:comment.post})
         const blogCommentUpdate = await Blog.updateOne({_id:comment.post}, {comments:comments})
