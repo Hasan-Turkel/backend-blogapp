@@ -13,7 +13,7 @@ router.use(isLogin)
 
 router.route('/')
     .get(isAdmin, like.list)
-    .post(like.create)
+    .post(isAdmin, like.create)
 
 router.route('/:id')
     .post(like.createOrDelete)

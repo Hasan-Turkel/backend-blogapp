@@ -12,13 +12,13 @@ const user = require('../controllers/user')
 router.use(isLogin)
 
 router.route('/')
-    .get(user.list)
-    .post(user.create)
+    .get(isAdmin, user.list)
+    .post(isAdmin, user.create)
 
 router.route('/:id')
-    .get(user.read)
-    .put(user.update)
-    .patch(user.update)
+    .get(isAdmin, user.read)
+    .put(isAdmin, user.update)
+    .patch(isAdmin, user.update)
     .delete(isAdmin, user.delete)
 
 /* ------------------------------------------------------- */
