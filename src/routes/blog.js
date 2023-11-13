@@ -21,5 +21,6 @@ router.route('/:id')
     .patch(blog.update)
     .delete(blog.delete)
 
+
 /* ------------------------------------------------------- */
 module.exports = router

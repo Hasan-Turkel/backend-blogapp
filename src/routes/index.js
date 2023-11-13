@@ -7,23 +7,20 @@ const router = require('express').Router()
 // URL: /
 
 auth:
-router.use('/auth', require('./auth'))
-// call user.create for /account/register:
-// const { create: userCreate } = require('../controllers/user')
-// router.post('/account/register', userCreate)
+router.use('users/auth', require('./auth'))
 
 // user:
 router.use('/users', require('./user'))
 // token:
 router.use('/tokens', require('./token'))
 // comment:
-router.use('/comments', require('./comment'))
+router.use('/api/comments', require('./comment'))
 // like:
-router.use('/likes', require('./like'))
+router.use('/api/likes', require('./like'))
 // category:
-router.use('/categories', require('./category'))
+router.use('/api/categories', require('./category'))
 // blog:
-router.use('/blogs', require('./blog'))
+router.use('/api/blogs', require('./blog'))
 
 
 // document:

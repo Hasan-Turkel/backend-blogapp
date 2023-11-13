@@ -1,15 +1,12 @@
-"use strict"
+"use strict";
 
-
-const Blog = require('../models/blog')
-const User = require('../models/user')
-const Category = require('../models/category')
-
+const Blog = require("../models/blog");
+const User = require("../models/user");
+const Category = require("../models/category");
 
 module.exports = {
-
-    list: async (req, res) => {
-        /*
+  list: async (req, res) => {
+    /*
             #swagger.tags = ["Blogs"]
             #swagger.summary = "List Blogs"
             #swagger.description = `
@@ -22,21 +19,23 @@ module.exports = {
             `
         */
 
+    if (req.query.author) {
+      req.query.author = req.user._id;
+      let filters = { author: req.user.username };
+      const data = await res.getModelList(Blog, filters);
 
-        const data = await res.getModelList(Blog)
+      // FOR REACT PROJECT:
+      res.status(200).send(data);
+    } else {
+      const data = await res.getModelList(Blog);
 
-        // res.status(200).send({
-        //     error: false,
-        //     details: await res.getModelListDetails(Blog),
-        //     data
-        // })
+      // FOR REACT PROJECT:
+      res.status(200).send(data);
+    }
+  },
 
-        // FOR REACT PROJECT:
-        res.status(200).send(data)
-    },
-
-    create: async (req, res) => {
-        /*
+  create: async (req, res) => {
+    /*
             #swagger.tags = ["Blogs"]
             #swagger.summary = "Create Blog"
             #swagger.parameters['body'] = {
@@ -51,44 +50,45 @@ module.exports = {
                 }
             }
         */
-        
-        req.body.author = req.user.username
 
-        const categoryData = await Category.findOne({name:req.body.category_name})
-        
-        req.body.category = categoryData._id
+    req.body.author = req.user.username;
 
-    
+    const categoryData = await Category.findOne({
+      name: req.body.category_name,
+    });
 
-        const data = await Blog.create(req.body)
+    req.body.category = categoryData._id;
 
-        // FOR REACT PROJECT:
-        res.status(201).send({
-            error: false,
-            data
-          
-        })
-    },
+    const data = await Blog.create(req.body);
 
-    read: async (req, res) => {
-        /*
+    // FOR REACT PROJECT:
+    res.status(201).send({
+      error: false,
+      data,
+    });
+  },
+
+  read: async (req, res) => {
+    /*
             #swagger.tags = ["Blogs"]
             #swagger.summary = "Get Single Blog"
         */
 
-       const blogView = await Blog.updateOne({ _id: req.params.id }, { $inc: { post_views: +1 }});
+    const blogView = await Blog.updateOne(
+      { _id: req.params.id },
+      { $inc: { post_views: +1 } }
+    );
 
-        const data = await Blog.findOne({_id:req.params.id})
+    const data = await Blog.findOne({ _id: req.params.id });
 
+    res.status(200).send({
+      error: false,
+      data,
+    });
+  },
 
-        res.status(200).send({
-            error: false,
-            data
-        })
-    },
-
-    update: async (req, res) => {
-        /*
+  update: async (req, res) => {
+    /*
             #swagger.tags = ["Blogs"]
             #swagger.summary = "Update Blog"
             #swagger.parameters['body'] = {
@@ -103,30 +103,36 @@ module.exports = {
                 }
             }
         */
-        const filters = (req.user?.is_superadmin) ? { _id: req.params.id } : { _id: req.params.id, author:req.user.username }
-        const data = await Blog.updateOne(filters, req.body, { runValidators: true })
+    const filters = req.user?.is_superadmin
+      ? { _id: req.params.id }
+      : { _id: req.params.id, author: req.user.username };
+    const data = await Blog.updateOne(filters, req.body, {
+      runValidators: true,
+    });
 
-        res.status(202).send({
-            error: false,
-            data,
-            new: await Blog.findOne(filters)
-        })
-    },
+    res.status(202).send({
+      error: false,
+      data,
+      new: await Blog.findOne(filters),
+    });
+  },
 
-    delete: async (req, res) => {
-        /*
+  delete: async (req, res) => {
+    /*
             #swagger.tags = ["Blogs"]
             #swagger.summary = "Delete Blog"
         */
 
-        const filters = (req.user?.is_superadmin) ? { _id: req.params.id } : { _id: req.params.id, author:req.user.username }
-        const data = await Blog.deleteOne(filters)
+    const filters = req.user?.is_superadmin
+      ? { _id: req.params.id }
+      : { _id: req.params.id, author: req.user.username };
+    const data = await Blog.deleteOne(filters);
 
-        console.log(filters);
+    // console.log(filters);
 
-        res.status(data.deletedCount ? 204 : 404).send({
-            error: !data.deletedCount,
-            data
-        })
-    },
-}
+    res.status(data.deletedCount ? 204 : 404).send({
+      error: !data.deletedCount,
+      data,
+    });
+  },
+};
