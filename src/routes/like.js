@@ -16,10 +16,11 @@ router.route('/')
     .post(like.create)
 
 router.route('/:id')
+    .post(like.createOrDelete)
     .get(isAdmin, like.read)
     .put(isAdmin, like.update)
     .patch(isAdmin, like.update)
-    .delete(like.delete)
+    .delete(isAdmin, like.delete)
 
 /* ------------------------------------------------------- */
 module.exports = router

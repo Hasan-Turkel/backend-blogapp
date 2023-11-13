@@ -54,8 +54,11 @@ module.exports = {
         
         req.body.author = req.user.username
 
-        const categoryData = await Category.findOne({category_name:req.body.category_name})
+        const categoryData = await Category.findOne({name:req.body.category_name})
+        
         req.body.category = categoryData._id
+
+    
 
         const data = await Blog.create(req.body)
 
@@ -73,10 +76,10 @@ module.exports = {
             #swagger.summary = "Get Single Blog"
         */
 
+       const blogView = await Blog.updateOne({ _id: req.params.id }, { $inc: { post_views: +1 }});
 
         const data = await Blog.findOne({_id:req.params.id})
 
-        const blogView = await Blog.updateOne({ _id: req.params.id }, { $inc: { post_views: +1 }});
 
         res.status(200).send({
             error: false,
@@ -100,7 +103,7 @@ module.exports = {
                 }
             }
         */
-        const filters = (req.user?.is_superadmin) ? { _id: req.params.id } : { _id: req.params._id, author:req.user.username }
+        const filters = (req.user?.is_superadmin) ? { _id: req.params.id } : { _id: req.params.id, author:req.user.username }
         const data = await Blog.updateOne(filters, req.body, { runValidators: true })
 
         res.status(202).send({
@@ -116,8 +119,10 @@ module.exports = {
             #swagger.summary = "Delete Blog"
         */
 
-        const filters = (req.user?.is_superadmin) ? { _id: req.params.id } : { _id: req.params._id, author:req.user.username }
+        const filters = (req.user?.is_superadmin) ? { _id: req.params.id } : { _id: req.params.id, author:req.user.username }
         const data = await Blog.deleteOne(filters)
+
+        console.log(filters);
 
         res.status(data.deletedCount ? 204 : 404).send({
             error: !data.deletedCount,

@@ -12,10 +12,11 @@ const comment = require('../controllers/comment')
 // router.use(isAdmin)
 
 router.route('/')
-    .get(comment.list)
-    .post(isLogin, comment.create)
+    .get(isLogin, comment.list)
+    
 
 router.route('/:id')
+    .post(isLogin, comment.create)
     .get(isAdmin, comment.read)
     .put(isAdmin, comment.update)
     .patch(isAdmin, comment.update)

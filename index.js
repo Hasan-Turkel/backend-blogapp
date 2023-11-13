@@ -12,7 +12,7 @@ const HOST = process.env?.HOST || '127.0.0.1'
 const PORT = process.env?.PORT || 8000
 
 // asyncErrors to errorHandler:
-require('express-async-errors')
+require("express-async-errors")
 
 /* ------------------------------------------------------- */
 // Configrations:
@@ -61,6 +61,7 @@ app.use(require('./src/routes'))
 
 // errorHandler:
 app.use(require('./src/middlewares/errorHandler'))
+
 
 // RUN SERVER:
 app.listen(PORT, HOST, () => console.log(`http://${HOST}:${PORT}`))

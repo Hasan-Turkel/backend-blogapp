@@ -4,6 +4,17 @@ const { mongoose } = require('../configs/dbConnection')
 
 // Blog Model:
 
+/*
+{
+    "title":"deneme",
+    "content":"deneme",
+   " image":"deneme",
+    "status":"d",
+    "category_name":"AI"
+
+}
+*/
+
 const BlogSchema = new mongoose.Schema({
 
     title: {
