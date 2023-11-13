@@ -52,14 +52,17 @@ const BlogSchema = new mongoose.Schema({
 
     likes: { 
         type: Number,
+        default:0
       
     },
     post_views: { 
         type: Number,
+        default:0
     },
  
     comment_count: { 
         type: Number,
+        default:0
         
     },
 

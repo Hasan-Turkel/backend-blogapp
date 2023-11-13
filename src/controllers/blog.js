@@ -2,6 +2,8 @@
 
 
 const Blog = require('../models/blog')
+const User = require('../models/user')
+const Category = require('../models/category')
 
 
 module.exports = {
@@ -21,7 +23,7 @@ module.exports = {
         */
 
 
-        const data = await res.getModelList(Blog, {}, )
+        const data = await res.getModelList(Blog)
 
         // res.status(200).send({
         //     error: false,
@@ -49,7 +51,11 @@ module.exports = {
                 }
             }
         */
+        
+        req.body.author = req.user.username
 
+        const categoryData = await Category.findOne({category_name:req.body.category_name})
+        req.body.category = categoryData._id
 
         const data = await Blog.create(req.body)
 
@@ -68,7 +74,9 @@ module.exports = {
         */
 
 
-        const data = await Blog.findOne(filters)
+        const data = await Blog.findOne({_id:req.params.id})
+
+        const blogView = await Blog.updateOne({ _id: req.params.id }, { $inc: { post_views: +1 }});
 
         res.status(200).send({
             error: false,
@@ -92,7 +100,7 @@ module.exports = {
                 }
             }
         */
-
+        const filters = (req.user?.is_superadmin) ? { _id: req.params.id } : { _id: req.params._id, author:req.user.username }
         const data = await Blog.updateOne(filters, req.body, { runValidators: true })
 
         res.status(202).send({
@@ -108,8 +116,8 @@ module.exports = {
             #swagger.summary = "Delete Blog"
         */
 
-
-        const data = await Blog.deleteOne()
+        const filters = (req.user?.is_superadmin) ? { _id: req.params.id } : { _id: req.params._id, author:req.user.username }
+        const data = await Blog.deleteOne(filters)
 
         res.status(data.deletedCount ? 204 : 404).send({
             error: !data.deletedCount,

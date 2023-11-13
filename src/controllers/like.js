@@ -97,11 +97,11 @@ module.exports = {
 
     const like = await Like.findOne({
       post_id: req.params.id,
-      user_id: req.user,
+      user_id: req.user._id,
     });
 
     if (!like) {
-      req.body.user_id = req.user;
+      req.body.user_id = req.user._id;
       req.body.post_id = req.params.id;
 
       const data = await Like.create(req.body);
@@ -122,7 +122,7 @@ module.exports = {
       });
     } else {
 
-      const data = await Like.deleteOne({ post_id: req.params.id, user_id:req.user });
+      const data = await Like.deleteOne({ post_id: req.params.id, user_id:req.user._id });
 
       const likes = await Like.find({ post_id: req.params.id});
       const blogCommentUpdate = await Blog.updateOne({ _id: req.params.id}, {likes_n: likes });

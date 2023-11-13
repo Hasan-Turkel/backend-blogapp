@@ -28,7 +28,7 @@ module.exports = {
         /*
             #swagger.ignore = true
         */
-        const user = await User.findOne({_id:req.user})
+        const user = await User.findOne({_id:req.user._id})
         req.body.user = user.username
         req.body.post = req.params.id
 
