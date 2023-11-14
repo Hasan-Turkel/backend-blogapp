@@ -27,9 +27,7 @@ dbConnection()
 // Accept JSON:
 app.use(express.json())
 
-app.use(require('cors')({
-    origin: ["http://localhost:3000", "http://localhost:4173", "http://localhost:5173"]
-}))
+app.use(require('cors')())
 
 
 // Check Authentication:

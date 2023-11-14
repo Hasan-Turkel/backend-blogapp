@@ -27,7 +27,8 @@ module.exports = {
       // FOR REACT PROJECT:
       res.status(200).send(data);
     } else {
-      const data = await res.getModelList(Blog);
+      let filters = { status: "p" }
+      const data = await res.getModelList(Blog, filters);
 
       // FOR REACT PROJECT:
       res.status(200).send(data);
@@ -54,10 +55,10 @@ module.exports = {
     req.body.author = req.user.username;
 
     const categoryData = await Category.findOne({
-      name: req.body.category_name,
+      _id: req.body.category,
     });
 
-    req.body.category = categoryData._id;
+    req.body.category_name = categoryData.name;
 
     const data = await Blog.create(req.body);
 
@@ -81,10 +82,13 @@ module.exports = {
 
     const data = await Blog.findOne({ _id: req.params.id });
 
-    res.status(200).send({
-      error: false,
-      data,
-    });
+    // FOR REACT PROJECT:
+    res.status(200).send(data);
+
+    // res.status(200).send({
+    //   error: false,
+    //   data,
+    // });
   },
 
   update: async (req, res) => {
