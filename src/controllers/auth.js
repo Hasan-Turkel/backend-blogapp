@@ -12,7 +12,7 @@ module.exports = {
         /*
             #swagger.tags = ["Authentication"]
             #swagger.summary = "Login"
-            #swagger.description = 'Login with username (or email) and password for get simpleToken and JWT'
+            #swagger.description = 'Login with username (or email) and password for get simpleToken'
             #swagger.parameters["body"] = {
                 in: "body",
                 required: true,
@@ -96,6 +96,21 @@ module.exports = {
     },
 
     register:async (req, res) =>{
+
+        /*
+            #swagger.tags = ["Authentication"]
+            #swagger.summary = "Register"
+            #swagger.description = 'Register with username, email) and password for get simpleToken'
+            #swagger.parameters["body"] = {
+                in: "body",
+                required: true,
+                schema: {
+                    "username": "test",
+                    "email": "test@mail.com",
+                    "password": "1234",
+                }
+            }
+        */
 
         req.body.is_superadmin = false
 

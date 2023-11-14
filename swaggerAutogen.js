@@ -23,30 +23,23 @@ const document = {
 	schemes: ['http', 'https'],
 	consumes: ["application/json"],
 	produces: ["application/json"],
-	securityDefinitions: {
+	securityDefinitions:[ {
 		Token: {
 			type: 'apiKey',
 			in: 'header',
 			name: 'Authorization',
 			description: 'Simple Token Authentication * Example: <b>Token ...tokenKey...</b>'
 		},
-		Bearer: {
-			type: 'apiKey',
-			in: 'header',
-			name: 'Authorization',
-			description: 'JWT Authentication * Example: <b>Bearer ...accessToken...</b>'
-		},
-	},
-	security: [{ Token: [] }, { Bearer: [] }],
+
+	}],
+	security: [{ Token: [] }],
 	definition: {
 		// Models:
 		"User": require('./src/models/user').schema.obj,
-		"Brand": require('./src/models/brand').schema.obj,
+		"Blog": require('./src/models/blog').schema.obj,
 		"Category": require('./src/models/category').schema.obj,
-		"Firm": require('./src/models/firm').schema.obj,
-		"Product": require('./src/models/product').schema.obj,
-		"Purchase": require('./src/models/purchase').schema.obj,
-		"Sale": require('./src/models/sale').schema.obj,
+		"Comment": require('./src/models/comment').schema.obj,
+		"Like": require('./src/models/like').schema.obj
 	}
 }
 

@@ -8,7 +8,9 @@ module.exports = {
 
     list: async (req, res) => {
         /*
-            #swagger.ignore = true
+            #swagger.tags = ["Categories"]
+            #swagger.summary = "List Category"
+            
         */
 
         const data = await res.getModelList(Category)
@@ -25,7 +27,16 @@ module.exports = {
 
     create: async (req, res) => {
         /*
-            #swagger.ignore = true
+            #swagger.tags = ["Categories"]
+            #swagger.summary = "Create Category"
+            #swagger.parameters['body'] = {
+                in: 'body',
+                required: true,
+                schema: {
+                    "name": "category",
+            
+                }
+            }
         */
 
         const data = await Category.create(req.body)
@@ -38,7 +49,8 @@ module.exports = {
 
     read: async (req, res) => {
         /*
-            #swagger.ignore = true
+            #swagger.tags = ["Categories"]
+            #swagger.summary = "Get Single Category"
         */
 
         const data = await Category.findOne({ _id: req.params.id })
@@ -50,8 +62,17 @@ module.exports = {
     },
 
     update: async (req, res) => {
-        /*
-            #swagger.ignore = true
+         /*
+            #swagger.tags = ["Ctegories"]
+            #swagger.summary = "Update Category"
+            #swagger.parameters['body'] = {
+                in: 'body',
+                required: true,
+                schema: {
+                   "name": "category",
+                  
+                }
+            }
         */
 
         const data = await Category.updateOne({ _id: req.params.id }, req.body, { runValidators: true })
@@ -64,8 +85,9 @@ module.exports = {
     },
 
     delete: async (req, res) => {
-        /*
-            #swagger.ignore = true
+          /*
+            #swagger.tags = ["Categories"]
+            #swagger.summary = "Delete Category"
         */
 
         const data = await Category.deleteOne({ _id: req.params.id })

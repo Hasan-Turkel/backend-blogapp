@@ -7,8 +7,10 @@ const Blog = require("../models/blog");
 
 module.exports = {
   list: async (req, res) => {
-    /*
-            #swagger.ignore = true
+  /*
+            #swagger.tags = ["Likes"]
+            #swagger.summary = "List Likes"
+            
         */
 
     const data = await res.getModelList(Like);
@@ -24,8 +26,18 @@ module.exports = {
   },
 
   create: async (req, res) => {
-    /*
-            #swagger.ignore = true
+     /*
+            #swagger.tags = ["Likes"]
+            #swagger.summary = "Create Like"
+            #swagger.parameters['body'] = {
+                in: 'body',
+                required: true,
+                schema: {
+                    "user_id": "id",
+                    "post_id": "id",
+            
+                }
+            }
         */
 
     const data = await Like.create(req.body);
@@ -41,8 +53,9 @@ module.exports = {
   },
 
   read: async (req, res) => {
-    /*
-            #swagger.ignore = true
+ /*
+            #swagger.tags = ["Likes"]
+            #swagger.summary = "Get Single Like"
         */
 
     const data = await Like.findOne({ _id: req.params.id });
@@ -54,8 +67,18 @@ module.exports = {
   },
 
   update: async (req, res) => {
-    /*
-            #swagger.ignore = true
+      /*
+            #swagger.tags = ["Likes"]
+            #swagger.summary = "Update Like"
+            #swagger.parameters['body'] = {
+                in: 'body',
+                required: true,
+                schema: {
+                   "user_id": "id",
+                    "post_id": "id",
+                  
+                }
+            }
         */
 
     const data = await Like.updateOne({ _id: req.params.id }, req.body, {
@@ -74,8 +97,9 @@ module.exports = {
   },
 
   delete: async (req, res) => {
-    /*
-            #swagger.ignore = true
+       /*
+            #swagger.tags = ["Likes"]
+            #swagger.summary = "Delete Like"
         */
     const like = await Like.findOne({ _id: req.params.id });
 
@@ -91,10 +115,10 @@ module.exports = {
     });
   },
   createOrDelete: async (req, res) => {
-    /*
-            #swagger.ignore = true
+       /*
+            #swagger.tags = ["Likes"]
+            #swagger.summary = "Create or Delete Like"
         */
-
     const like = await Like.findOne({
       post_id: req.params.id,
       user_id: req.user._id,
