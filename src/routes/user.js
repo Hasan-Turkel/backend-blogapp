@@ -4,22 +4,22 @@ const router = require('express').Router()
 /* ------------------------------------------------------- */
 // routes/user:
 
-const { isLogin, isAdmin } = require('../middlewares/permissions')
+const { isAdmin } = require('../middlewares/permissions')
 const user = require('../controllers/user')
 
 // URL: /users
 
-router.use(isLogin)
+router.use(isAdmin)
 
 router.route('/')
-    .get(isAdmin, user.list)
-    .post(isAdmin, user.create)
+    .get(user.list)
+    .post(user.create)
 
 router.route('/:id')
-    .get(isAdmin, user.read)
-    .put(isAdmin, user.update)
-    .patch(isAdmin, user.update)
-    .delete(isAdmin, user.delete)
+    .get(user.read)
+    .put(user.update)
+    .patch(user.update)
+    .delete(user.delete)
 
 /* ------------------------------------------------------- */
 module.exports = router

@@ -9,14 +9,7 @@ module.exports = {
     /*
             #swagger.tags = ["Blogs"]
             #swagger.summary = "List Blogs"
-            #swagger.description = `
-                You can send query with endpoint for search[], sort[], page and limit.
-                <ul> Examples:
-                    <li>URL/?<b>search[field1]=value1&search[field2]=value2</b></li>
-                    <li>URL/?<b>sort[field1]=1&sort[field2]=-1</b></li>
-                    <li>URL/?<b>page=2&limit=1</b></li>
-                </ul>
-            `
+            
         */
 
     if (req.query.author) {
@@ -27,7 +20,8 @@ module.exports = {
       // FOR REACT PROJECT:
       res.status(200).send(data);
     } else {
-      const data = await res.getModelList(Blog);
+      let filters = { status: "p" }
+      const data = await res.getModelList(Blog, filters);
 
       // FOR REACT PROJECT:
       res.status(200).send(data);
@@ -42,11 +36,19 @@ module.exports = {
                 in: 'body',
                 required: true,
                 schema: {
-                    "username": "test",
-                    "password": "1234",
-                    "email": "test@site.com",
-                    "first_name": "test",
-                    "last_name": "test",
+                    "title": "title",
+                    "content": "content",
+                    "image": "https://image.png",
+                    "category": "id",
+                    "author": "test",
+                    "author": "test",
+                    "status": ["d", "p"],
+                    "comments": [],
+                    "likes": "number",
+                    "post_views": "number",
+                    "comment_count": "number",
+                    "likes_n": [],
+
                 }
             }
         */
@@ -54,10 +56,10 @@ module.exports = {
     req.body.author = req.user.username;
 
     const categoryData = await Category.findOne({
-      name: req.body.category_name,
+      _id: req.body.category,
     });
 
-    req.body.category = categoryData._id;
+    req.body.category_name = categoryData.name;
 
     const data = await Blog.create(req.body);
 
@@ -81,10 +83,13 @@ module.exports = {
 
     const data = await Blog.findOne({ _id: req.params.id });
 
-    res.status(200).send({
-      error: false,
-      data,
-    });
+    // FOR REACT PROJECT:
+    res.status(200).send(data);
+
+    // res.status(200).send({
+    //   error: false,
+    //   data,
+    // });
   },
 
   update: async (req, res) => {
@@ -95,11 +100,18 @@ module.exports = {
                 in: 'body',
                 required: true,
                 schema: {
-                    "username": "test",
-                    "password": "1234",
-                    "email": "test@site.com",
-                    "first_name": "test",
-                    "last_name": "test",
+                    "title": "title",
+                    "content": "content",
+                    "image": "https://image.png",
+                    "category": "id",
+                    "author": "test",
+                    "author": "test",
+                    "status": ["d", "p"],
+                    "comments": [],
+                    "likes": "number",
+                    "post_views": "number",
+                    "comment_count": "number",
+                    "likes_n": [],
                 }
             }
         */

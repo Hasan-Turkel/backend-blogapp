@@ -27,16 +27,14 @@ dbConnection()
 // Accept JSON:
 app.use(express.json())
 
-app.use(require('cors')({
-    origin: ["http://localhost:3000", "http://localhost:4173", "http://localhost:5173"]
-}))
+app.use(require('cors')())
 
 
 // Check Authentication:
 app.use(require('./src/middlewares/authentication'))
 
 // Run Logger:
-app.use(require('./src/middlewares/logger'))
+// app.use(require('./src/middlewares/logger'))
 
 // res.getModelList():
 app.use(require('./src/middlewares/findSearchSortPage'))
@@ -68,5 +66,5 @@ app.use(require('./src/middlewares/errorHandler'))
 
 
 // RUN SERVER:
-app.listen(PORT, HOST, () => console.log(`http://${HOST}:${PORT}`))
+app.listen(PORT, () => console.log(`http://${HOST}:${PORT}`))
 

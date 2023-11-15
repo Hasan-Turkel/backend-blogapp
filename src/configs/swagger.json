@@ -4,10 +4,10 @@
     "version": "1.0.0",
     "title": "Stock Management API",
     "description": "Stock Management System",
-    "termsOfService": "http://www.clarusway.com/#",
+    "termsOfService": "",
     "contact": {
-      "name": "Clarusway",
-      "email": "qadir@clarusway.com"
+      "name": "Hasan Turkel",
+      "email": "mhturkel@gmail.com"
     },
     "license": {
       "name": "ISC Licence"
@@ -19,20 +19,14 @@
     "http",
     "https"
   ],
-  "securityDefinitions": {
+  "securityDefinitions": [{
     "Token": {
       "type": "apiKey",
       "in": "header",
       "name": "Authorization",
       "description": "Simple Token Authentication * Example: <b>Token ...tokenKey...</b>"
-    },
-    "Bearer": {
-      "type": "apiKey",
-      "in": "header",
-      "name": "Authorization",
-      "description": "JWT Authentication * Example: <b>Bearer ...accessToken...</b>"
     }
-  },
+  }],
   "consumes": [
     "application/json"
   ],
@@ -40,13 +34,13 @@
     "application/json"
   ],
   "paths": {
-    "/account/auth/login": {
+    "/users/auth/login": {
       "post": {
         "tags": [
           "Authentication"
         ],
         "summary": "Login",
-        "description": "Login with username (or email) and password.",
+        "description": "Login with username (or email) and password for get simpleToken",
         "parameters": [
           {
             "name": "body",
@@ -74,12 +68,12 @@
         }
       }
     },
-    "/account/auth/logout": {
+    "/users/auth/logout": {
       "get": {
         "tags": [
           "Authentication"
         ],
-        "summary": "Logout",
+        "summary": "simpleToken: Logout",
         "description": "Delete token key.",
         "responses": {
           "200": {
@@ -91,8 +85,46 @@
         "tags": [
           "Authentication"
         ],
-        "summary": "Logout",
+        "summary": "simpleToken: Logout",
         "description": "Delete token key.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/auth/register": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Register",
+        "description": "Register with username, email and password for get simpleToken",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "test"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "test@mail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "1234"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -106,7 +138,7 @@
           "Users"
         ],
         "summary": "List Users",
-        "description": "  You can send query with endpoint for search[], sort[], page and limit.  <ul> Examples:   <li>URL/?<b>search[field1]=value1&search[field2]=value2</b></li>   <li>URL/?<b>sort[field1]=1&sort[field2]=-1</b></li>   <li>URL/?<b>page=2&limit=1</b></li>  </ul>  ",
+        "description": "",
         "responses": {
           "200": {
             "description": "OK"
@@ -138,14 +170,6 @@
                 "email": {
                   "type": "string",
                   "example": "test@site.com"
-                },
-                "is_active": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "is_superadmin": {
-                  "type": "boolean",
-                  "example": false
                 }
               }
             }
@@ -210,22 +234,14 @@
                 "email": {
                   "type": "string",
                   "example": "test@site.com"
-                },
-                "is_active": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "is_superadmin": {
-                  "type": "boolean",
-                  "example": false
                 }
               }
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "202": {
+            "description": "Accepted"
           }
         }
       },
@@ -283,68 +299,38 @@
                 "email": {
                   "type": "string",
                   "example": "test@site.com"
-                },
-                "is_active": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "is_superadmin": {
-                  "type": "boolean",
-                  "example": false
                 }
               }
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "202": {
+            "description": "Accepted"
           }
         }
       }
     },
-    "/stock/brands/": {
+    "/api/comments/": {
       "get": {
         "tags": [
-          "Brands"
+          "Comments"
         ],
-        "summary": "List Brands",
-        "description": "  You can send query with endpoint for search[], sort[], page and limit.  <ul> Examples:   <li>URL/?<b>search[field1]=value1&search[field2]=value2</b></li>   <li>URL/?<b>sort[field1]=1&sort[field2]=-1</b></li>   <li>URL/?<b>page=2&limit=1</b></li>  </ul>  ",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Brands"
-        ],
-        "summary": "Create Brand",
+        "summary": "List Comments",
         "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Brand"
-            }
-          }
-        ],
         "responses": {
-          "201": {
-            "description": "Created"
+          "200": {
+            "description": "OK"
           }
         }
       }
     },
-    "/stock/brands/{id}": {
+    "/api/comments/{id}": {
       "get": {
         "tags": [
-          "Brands"
+          "Comments"
         ],
-        "summary": "Get Single Brand",
+        "summary": "Get Single Comment",
         "description": "",
         "parameters": [
           {
@@ -360,11 +346,11 @@
           }
         }
       },
-      "put": {
+      "post": {
         "tags": [
-          "Brands"
+          "Comments"
         ],
-        "summary": "Update Brand",
+        "summary": "Create Comment",
         "description": "",
         "parameters": [
           {
@@ -378,21 +364,77 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Brand"
+              "type": "object",
+              "properties": {
+                "user": {
+                  "type": "string",
+                  "example": "test"
+                },
+                "comment": {
+                  "type": "string",
+                  "example": "comment"
+                },
+                "post": {
+                  "type": "string",
+                  "example": "id"
+                }
+              }
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Created"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Comments"
+        ],
+        "summary": "Update Comment",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user": {
+                  "type": "string",
+                  "example": "test"
+                },
+                "post": {
+                  "type": "string",
+                  "example": "id"
+                },
+                "comment": {
+                  "type": "string",
+                  "example": "comment"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted"
           }
         }
       },
       "delete": {
         "tags": [
-          "Brands"
+          "Comments"
         ],
-        "summary": "Delete Brand",
+        "summary": "Delete Comment",
         "description": "",
         "parameters": [
           {
@@ -413,9 +455,9 @@
       },
       "patch": {
         "tags": [
-          "Brands"
+          "Comments"
         ],
-        "summary": "Update Brand",
+        "summary": "Update Comment",
         "description": "",
         "parameters": [
           {
@@ -429,8 +471,90 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Brand"
+              "type": "object",
+              "properties": {
+                "user": {
+                  "type": "string",
+                  "example": "test"
+                },
+                "post": {
+                  "type": "string",
+                  "example": "id"
+                },
+                "comment": {
+                  "type": "string",
+                  "example": "comment"
+                }
+              }
             }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          }
+        }
+      }
+    },
+    "/api/likes/": {
+      "get": {
+        "tags": [
+          "Likes"
+        ],
+        "summary": "List Likes",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Likes"
+        ],
+        "summary": "Create Like",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "type": "string",
+                  "example": "id"
+                },
+                "post_id": {
+                  "type": "string",
+                  "example": "id"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/api/likes/{id}": {
+      "get": {
+        "tags": [
+          "Likes"
+        ],
+        "summary": "Get Single Like",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -438,15 +562,132 @@
             "description": "OK"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Likes"
+        ],
+        "summary": "Create or Delete Like",
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Likes"
+        ],
+        "summary": "Update Like",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "type": "string",
+                  "example": "id"
+                },
+                "post_id": {
+                  "type": "string",
+                  "example": "id"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Likes"
+        ],
+        "summary": "Delete Like",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Likes"
+        ],
+        "summary": "Update Like",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "type": "string",
+                  "example": "id"
+                },
+                "post_id": {
+                  "type": "string",
+                  "example": "id"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          }
+        }
       }
     },
-    "/stock/categories/": {
+    "/api/categories/": {
       "get": {
         "tags": [
           "Categories"
         ],
-        "summary": "List Categories",
-        "description": "  You can send query with endpoint for search[], sort[], page and limit.  <ul> Examples:   <li>URL/?<b>search[field1]=value1&search[field2]=value2</b></li>   <li>URL/?<b>sort[field1]=1&sort[field2]=-1</b></li>   <li>URL/?<b>page=2&limit=1</b></li>  </ul>  ",
+        "summary": "List Category",
+        "description": "",
         "responses": {
           "200": {
             "description": "OK"
@@ -465,7 +706,13 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Category"
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "category"
+                }
+              }
             }
           }
         ],
@@ -476,7 +723,7 @@
         }
       }
     },
-    "/stock/categories/{id}": {
+    "/api/categories/{id}": {
       "get": {
         "tags": [
           "Categories"
@@ -515,13 +762,19 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Category"
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "category"
+                }
+              }
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "202": {
+            "description": "Accepted"
           }
         }
       },
@@ -566,24 +819,37 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Category"
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "category"
+                }
+              }
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "202": {
+            "description": "Accepted"
           }
         }
       }
     },
-    "/stock/firms/": {
+    "/api/blogs/": {
       "get": {
         "tags": [
-          "Firms"
+          "Blogs"
         ],
-        "summary": "List Firms",
-        "description": "  You can send query with endpoint for search[], sort[], page and limit.  <ul> Examples:   <li>URL/?<b>search[field1]=value1&search[field2]=value2</b></li>   <li>URL/?<b>sort[field1]=1&sort[field2]=-1</b></li>   <li>URL/?<b>page=2&limit=1</b></li>  </ul>  ",
+        "summary": "List Blogs",
+        "description": "",
+        "parameters": [
+          {
+            "name": "author",
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -592,9 +858,9 @@
       },
       "post": {
         "tags": [
-          "Firms"
+          "Blogs"
         ],
-        "summary": "Create Firm",
+        "summary": "Create Blog",
         "description": "",
         "parameters": [
           {
@@ -602,7 +868,61 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Firm"
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "title"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "content"
+                },
+                "image": {
+                  "type": "string",
+                  "example": "https://image.png"
+                },
+                "category": {
+                  "type": "string",
+                  "example": "id"
+                },
+                "author": {
+                  "type": "string",
+                  "example": "test"
+                },
+                "status": {
+                  "type": "array",
+                  "example": [
+                    "d",
+                    "p"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "comments": {
+                  "type": "array",
+                  "example": [],
+                  "items": {}
+                },
+                "likes": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "post_views": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "comment_count": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "likes_n": {
+                  "type": "array",
+                  "example": [],
+                  "items": {}
+                }
+              }
             }
           }
         ],
@@ -613,12 +933,12 @@
         }
       }
     },
-    "/stock/firms/{id}": {
+    "/api/blogs/{id}": {
       "get": {
         "tags": [
-          "Firms"
+          "Blogs"
         ],
-        "summary": "Get Single Firm",
+        "summary": "Get Single Blog",
         "description": "",
         "parameters": [
           {
@@ -636,9 +956,9 @@
       },
       "put": {
         "tags": [
-          "Firms"
+          "Blogs"
         ],
-        "summary": "Update Firm",
+        "summary": "Update Blog",
         "description": "",
         "parameters": [
           {
@@ -652,21 +972,75 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Firm"
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "title"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "content"
+                },
+                "image": {
+                  "type": "string",
+                  "example": "https://image.png"
+                },
+                "category": {
+                  "type": "string",
+                  "example": "id"
+                },
+                "author": {
+                  "type": "string",
+                  "example": "test"
+                },
+                "status": {
+                  "type": "array",
+                  "example": [
+                    "d",
+                    "p"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "comments": {
+                  "type": "array",
+                  "example": [],
+                  "items": {}
+                },
+                "likes": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "post_views": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "comment_count": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "likes_n": {
+                  "type": "array",
+                  "example": [],
+                  "items": {}
+                }
+              }
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "202": {
+            "description": "Accepted"
           }
         }
       },
       "delete": {
         "tags": [
-          "Firms"
+          "Blogs"
         ],
-        "summary": "Delete Firm",
+        "summary": "Delete Blog",
         "description": "",
         "parameters": [
           {
@@ -687,9 +1061,9 @@
       },
       "patch": {
         "tags": [
-          "Firms"
+          "Blogs"
         ],
-        "summary": "Update Firm",
+        "summary": "Update Blog",
         "description": "",
         "parameters": [
           {
@@ -703,424 +1077,67 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Firm"
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "title"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "content"
+                },
+                "image": {
+                  "type": "string",
+                  "example": "https://image.png"
+                },
+                "category": {
+                  "type": "string",
+                  "example": "id"
+                },
+                "author": {
+                  "type": "string",
+                  "example": "test"
+                },
+                "status": {
+                  "type": "array",
+                  "example": [
+                    "d",
+                    "p"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "comments": {
+                  "type": "array",
+                  "example": [],
+                  "items": {}
+                },
+                "likes": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "post_views": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "comment_count": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "likes_n": {
+                  "type": "array",
+                  "example": [],
+                  "items": {}
+                }
+              }
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/stock/products/": {
-      "get": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "List Products",
-        "description": "  You can send query with endpoint for search[], sort[], page and limit.  <ul> Examples:   <li>URL/?<b>search[field1]=value1&search[field2]=value2</b></li>   <li>URL/?<b>sort[field1]=1&sort[field2]=-1</b></li>   <li>URL/?<b>page=2&limit=1</b></li>  </ul>  ",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "Create Product",
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Product"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          }
-        }
-      }
-    },
-    "/stock/products/{id}": {
-      "get": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "Get Single Product",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "Update Product",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Product"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "Delete Product",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "Update Product",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Product"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/stock/purchases/": {
-      "get": {
-        "tags": [
-          "Purchases"
-        ],
-        "summary": "List Purchases",
-        "description": "  You can send query with endpoint for search[], sort[], page and limit.  <ul> Examples:   <li>URL/?<b>search[field1]=value1&search[field2]=value2</b></li>   <li>URL/?<b>sort[field1]=1&sort[field2]=-1</b></li>   <li>URL/?<b>page=2&limit=1</b></li>  </ul>  ",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Purchases"
-        ],
-        "summary": "Create Purchase",
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Purchase"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          }
-        }
-      }
-    },
-    "/stock/purchases/{id}": {
-      "get": {
-        "tags": [
-          "Purchases"
-        ],
-        "summary": "Get Single Purchase",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Purchases"
-        ],
-        "summary": "Update Purchase",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Purchase"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Purchases"
-        ],
-        "summary": "Delete Purchase",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Purchases"
-        ],
-        "summary": "Update Purchase",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Purchase"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/stock/sales/": {
-      "get": {
-        "tags": [
-          "Sales"
-        ],
-        "summary": "List Sales",
-        "description": "  You can send query with endpoint for search[], sort[], page and limit.  <ul> Examples:   <li>URL/?<b>search[field1]=value1&search[field2]=value2</b></li>   <li>URL/?<b>sort[field1]=1&sort[field2]=-1</b></li>   <li>URL/?<b>page=2&limit=1</b></li>  </ul>  ",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Sales"
-        ],
-        "summary": "Create Sale",
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Sale"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          }
-        }
-      }
-    },
-    "/stock/sales/{id}": {
-      "get": {
-        "tags": [
-          "Sales"
-        ],
-        "summary": "Get Single Sale",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Sales"
-        ],
-        "summary": "Update Sale",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Sale"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Sales"
-        ],
-        "summary": "Delete Sale",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Sales"
-        ],
-        "summary": "Update Sale",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Sale"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
+          "202": {
+            "description": "Accepted"
           }
         }
       }
@@ -1147,10 +1164,14 @@
             "unique": {
               "type": "boolean",
               "example": true
+            },
+            "index": {
+              "type": "boolean",
+              "example": true
             }
           }
         },
-        "password": {
+        "first_name": {
           "type": "object",
           "properties": {
             "type": {
@@ -1159,8 +1180,16 @@
             "trim": {
               "type": "boolean",
               "example": true
+            }
+          }
+        },
+        "last_name": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
             },
-            "required": {
+            "trim": {
               "type": "boolean",
               "example": true
             }
@@ -1183,26 +1212,14 @@
             "unique": {
               "type": "boolean",
               "example": true
-            }
-          }
-        },
-        "first_name": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "function"
             },
-            "trim": {
-              "type": "boolean",
-              "example": true
-            },
-            "required": {
+            "index": {
               "type": "boolean",
               "example": true
             }
           }
         },
-        "last_name": {
+        "password": {
           "type": "object",
           "properties": {
             "type": {
@@ -1230,15 +1247,23 @@
             }
           }
         },
-        "is_staff": {
+        "bio": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            }
+          }
+        },
+        "image": {
           "type": "object",
           "properties": {
             "type": {
               "type": "function"
             },
-            "default": {
+            "trim": {
               "type": "boolean",
-              "example": false
+              "example": true
             }
           }
         },
@@ -1256,10 +1281,82 @@
         }
       }
     },
-    "Brand": {
+    "Blog": {
       "type": "object",
       "properties": {
-        "name": {
+        "title": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "trim": {
+              "type": "boolean",
+              "example": true
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        },
+        "content": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        },
+        "image": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            },
+            "trim": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        },
+        "category": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "ref": {
+              "type": "string",
+              "example": "Category"
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        },
+        "author": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        },
+        "status": {
           "type": "object",
           "properties": {
             "type": {
@@ -1273,23 +1370,75 @@
               "type": "boolean",
               "example": true
             },
-            "unique": {
-              "type": "boolean",
-              "example": true
+            "enum": {
+              "type": "array",
+              "example": [
+                "p",
+                "d"
+              ],
+              "items": {
+                "type": "string"
+              }
             }
           }
         },
-        "image": {
+        "comments": {
+          "type": "array",
+          "example": [],
+          "items": {}
+        },
+        "category_name": {
           "type": "object",
           "properties": {
             "type": {
               "type": "function"
             },
-            "trim": {
+            "required": {
               "type": "boolean",
               "example": true
             }
           }
+        },
+        "likes": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "default": {
+              "type": "number",
+              "example": 0
+            }
+          }
+        },
+        "post_views": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "default": {
+              "type": "number",
+              "example": 0
+            }
+          }
+        },
+        "comment_count": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "default": {
+              "type": "number",
+              "example": 0
+            }
+          }
+        },
+        "likes_n": {
+          "type": "array",
+          "example": [],
+          "items": {}
         }
       }
     },
@@ -1309,19 +1458,15 @@
             "required": {
               "type": "boolean",
               "example": true
-            },
-            "unique": {
-              "type": "boolean",
-              "example": true
             }
           }
         }
       }
     },
-    "Firm": {
+    "Comment": {
       "type": "object",
       "properties": {
-        "name": {
+        "user": {
           "type": "object",
           "properties": {
             "type": {
@@ -1334,55 +1479,22 @@
             "required": {
               "type": "boolean",
               "example": true
-            },
-            "unique": {
-              "type": "boolean",
-              "example": true
             }
           }
         },
-        "phone": {
+        "content": {
           "type": "object",
           "properties": {
             "type": {
               "type": "function"
             },
-            "trim": {
+            "required": {
               "type": "boolean",
               "example": true
             }
           }
         },
-        "address": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "function"
-            },
-            "trim": {
-              "type": "boolean",
-              "example": true
-            }
-          }
-        },
-        "image": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "function"
-            },
-            "trim": {
-              "type": "boolean",
-              "example": true
-            }
-          }
-        }
-      }
-    },
-    "Product": {
-      "type": "object",
-      "properties": {
-        "category_id": {
+        "post": {
           "type": "object",
           "properties": {
             "type": {
@@ -1390,61 +1502,17 @@
             },
             "ref": {
               "type": "string",
-              "example": "Category"
+              "example": "Blog"
             },
             "required": {
               "type": "boolean",
               "example": true
-            }
-          }
-        },
-        "brand_id": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "function"
-            },
-            "ref": {
-              "type": "string",
-              "example": "Brand"
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
-        },
-        "name": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "function"
-            },
-            "trim": {
-              "type": "boolean",
-              "example": true
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
-        },
-        "quantity": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "function"
-            },
-            "default": {
-              "type": "number",
-              "example": 0
             }
           }
         }
       }
     },
-    "Purchase": {
+    "Like": {
       "type": "object",
       "properties": {
         "user_id": {
@@ -1463,7 +1531,7 @@
             }
           }
         },
-        "firm_id": {
+        "post_id": {
           "type": "object",
           "properties": {
             "type": {
@@ -1471,180 +1539,18 @@
             },
             "ref": {
               "type": "string",
-              "example": "Firm"
+              "example": "Blog"
             },
             "required": {
               "type": "boolean",
               "example": true
-            }
-          }
-        },
-        "brand_id": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "function"
-            },
-            "ref": {
-              "type": "string",
-              "example": "Brand"
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
-        },
-        "product_id": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "function"
-            },
-            "ref": {
-              "type": "string",
-              "example": "Product"
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
-        },
-        "quantity": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "function"
-            },
-            "default": {
-              "type": "number",
-              "example": 0
-            }
-          }
-        },
-        "price": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "function"
-            },
-            "default": {
-              "type": "number",
-              "example": 0
-            }
-          }
-        },
-        "price_total": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "function"
-            },
-            "default": {
-              "type": "number",
-              "example": 0
-            }
-          }
-        }
-      }
-    },
-    "Sale": {
-      "type": "object",
-      "properties": {
-        "user_id": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "function"
-            },
-            "ref": {
-              "type": "string",
-              "example": "User"
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
-        },
-        "brand_id": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "function"
-            },
-            "ref": {
-              "type": "string",
-              "example": "Brand"
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
-        },
-        "product_id": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "function"
-            },
-            "ref": {
-              "type": "string",
-              "example": "Product"
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
-        },
-        "quantity": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "function"
-            },
-            "default": {
-              "type": "number",
-              "example": 0
-            }
-          }
-        },
-        "price": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "function"
-            },
-            "default": {
-              "type": "number",
-              "example": 0
-            }
-          }
-        },
-        "price_total": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "function"
-            },
-            "default": {
-              "type": "number",
-              "example": 0
             }
           }
         }
       }
     }
   },
-  "security": [
-    {
-      "Token": []
-    },
-    {
-      "Bearer": []
-    }
-  ]
+  "security":[ {
+    "Token": []
+  }]
 }

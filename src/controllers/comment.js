@@ -9,7 +9,9 @@ module.exports = {
 
     list: async (req, res) => {
         /*
-            #swagger.ignore = true
+            #swagger.tags = ["Comments"]
+            #swagger.summary = "List Comments"
+            
         */
 
         const data = await res.getModelList(Comment)
@@ -25,8 +27,19 @@ module.exports = {
     },
 
     create: async (req, res) => {
-        /*
-            #swagger.ignore = true
+          /*
+            #swagger.tags = ["Comments"]
+            #swagger.summary = "Create Comment"
+            #swagger.parameters['body'] = {
+                in: 'body',
+                required: true,
+                schema: {
+                    "user": "test",
+                    "comment": "comment",
+                    "post":"id"
+            
+                }
+            }
         */
         req.body.user = req.user.username
         req.body.post = req.params.id
@@ -45,8 +58,9 @@ module.exports = {
     },
 
     read: async (req, res) => {
-        /*
-            #swagger.ignore = true
+         /*
+            #swagger.tags = ["Comments"]
+            #swagger.summary = "Get Single Comment"
         */
 
         const data = await Comment.findOne({ _id: req.params.id })
@@ -58,8 +72,19 @@ module.exports = {
     },
 
     update: async (req, res) => {
-        /*
-            #swagger.ignore = true
+       /*
+            #swagger.tags = ["Comments"]
+            #swagger.summary = "Update Comment"
+            #swagger.parameters['body'] = {
+                in: 'body',
+                required: true,
+                schema: {
+                   "user": "test",
+                    "post": "id",
+                    "comment":"comment"
+                  
+                }
+            }
         */
 
         const data = await Comment.updateOne({ _id: req.params.id }, req.body, { runValidators: true })
@@ -76,7 +101,8 @@ module.exports = {
 
     delete: async (req, res) => {
         /*
-            #swagger.ignore = true
+            #swagger.tags = ["Comments"]
+            #swagger.summary = "Delete Comment"
         */
         const comment = await Comment.findOne({_id:req.params.id})
 
