@@ -4,12 +4,12 @@ const router = require('express').Router()
 /* ------------------------------------------------------- */
 // routes/category:
 
-const { isAdmin, isLogin } = require('../middlewares/permissions')
+const {isAdmin} = require('../middlewares/permissions')
 const category = require('../controllers/category')
 
 // URL: /categories
 
-router.use(isLogin)
+
 
 router.route('/')
     .get(category.list)

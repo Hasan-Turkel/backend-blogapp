@@ -9,12 +9,10 @@ const comment = require('../controllers/comment')
 
 // URL: /comments
 
-// router.use(isAdmin)
 
 router.route('/')
     .get(isAdmin, comment.list)
     
-
 router.route('/:id')
     .post(isLogin, comment.create)
     .get(isAdmin, comment.read)
