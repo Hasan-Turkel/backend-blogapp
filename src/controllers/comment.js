@@ -49,7 +49,7 @@ module.exports = {
         const comments = await Comment.find({post:req.params.id})
 
         const blogCommentUpdate = await Blog.updateOne({_id:req.params.id}, {comments:comments})
-        const blogCommentCountUpdate = await Blog.updateOne({_id:req.params.id}, { $inc: { comment_count: +1 } })
+        const blogCommentCountUpdate = await Blog.updateOne({_id:req.params.id}, { $inc: { comment_count: +1, post_views: -1 } })
 
         res.status(201).send({
             error: false,

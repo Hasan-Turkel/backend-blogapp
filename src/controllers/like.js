@@ -137,7 +137,7 @@ module.exports = {
       );
       const blogLikesCountUpdate = await Blog.updateOne(
         { _id: req.params.id },
-        { $inc: { likes: +1 } }
+        { $inc: { likes: +1, post_views: -1 } }
       );
 
       res.status(201).send({
@@ -150,7 +150,7 @@ module.exports = {
 
       const likes = await Like.find({ post_id: req.params.id});
       const blogCommentUpdate = await Blog.updateOne({ _id: req.params.id}, {likes_n: likes });
-      const blogCommentCountUpdate = await Blog.updateOne({ _id: req.params.id }, { $inc: { likes: -1 } }
+      const blogCommentCountUpdate = await Blog.updateOne({ _id: req.params.id }, { $inc: { likes: -1, post_views: -1 } }
       );
 
       res.status(data.deletedCount ? 204 : 404).send({
