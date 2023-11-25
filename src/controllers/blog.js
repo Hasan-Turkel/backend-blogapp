@@ -118,11 +118,8 @@ module.exports = {
     const filters = req.user?.is_superadmin
       ? { _id: req.params.id }
       : { _id: req.params.id, author: req.user.username };
-      const blogPostViewFix = await Blog.updateOne(
-        filters,
-        { $inc: { post_views: -1 } }
-      );
-    const data = await Blog.updateOne(filters, req.body, {
+      
+    const data = await Blog.updateOne(filters, {...req.body, $inc: { post_views: -1 } }, {
       runValidators: true,
     });
 
