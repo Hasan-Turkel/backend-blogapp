@@ -119,8 +119,10 @@ module.exports = {
       ? { _id: req.params.id }
       : { _id: req.params.id, author: req.user.username };
       
-    const data = await Blog.updateOne(filters, {...req.body, $inc: { post_views: -1 } }, {
+    const data = await Blog.updateOne(filters, req.body, {
       runValidators: true,
+    });
+    const post_viewDec = await Blog.updateOne(filters, { $inc: { post_views: -1 }
     });
 
     res.status(202).send({
